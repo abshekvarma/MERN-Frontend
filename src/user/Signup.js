@@ -20,23 +20,27 @@ const Signup = () => {
 
   const successMessage = () => {
     return (
-      <div
-        className="alert alert-success"
-        style={{ display: success ? "" : "none" }}
-      >
-        New Account was created successfully. Please
-        <Link to="/signin">Login Here </Link> here
+      <div className="col col-md-4 offset-sm-4 text-center">
+        <div
+          className="alert alert-success"
+          style={{ display: success ? "" : "none" }}
+        >
+          New Account was created successfully. Please
+          <Link to="/signin"> Click Here </Link> to Log In
+        </div>
       </div>
     );
   };
 
   const errorMessage = () => {
     return (
-      <div
-        className="alert alert-danger"
-        style={{ display: error ? "" : "none" }}
-      >
-        {error}
+      <div className="col col-md-4 offset-sm-4 text-center">
+        <div
+          className="alert alert-danger"
+          style={{ display: error ? "" : "none" }}
+        >
+          {error}
+        </div>
       </div>
     );
   };
@@ -108,9 +112,8 @@ const Signup = () => {
   return (
     <Base title="Singup Page" description="A page for user to signup">
       {successMessage()}
-      {errorMessage}
+      {errorMessage()}
       {signUpForm()}
-      <p className="text-white text-center">{JSON.stringify(values)}</p>
     </Base>
   );
 };

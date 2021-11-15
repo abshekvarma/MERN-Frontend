@@ -10,14 +10,14 @@ export const signUp = user => {
     body: JSON.stringify(user),
   })
     .then(response => {
-      return response.json;
+      return response.json();
     })
     .catch(err => {
       console.log(err);
     });
 };
 
-export const signIn = user => {
+export const signin = user => {
   return fetch(`${API}/signin`, {
     method: "POST",
     headers: {
@@ -27,7 +27,7 @@ export const signIn = user => {
     body: JSON.stringify(user),
   })
     .then(response => {
-      return response.json;
+      return response.json();
     })
     .catch(err => {
       console.log(err);
@@ -41,7 +41,7 @@ export const authenticate = (data, next) => {
   }
 };
 
-export const signOut = next => {
+export const signout = next => {
   if (typeof window !== undefined) {
     localStorage.removeItem("jwt");
     next();
@@ -59,7 +59,7 @@ export const signOut = next => {
 };
 
 export const isAuthenticate = () => {
-  if (typeof window !== undefined) {
+  if (typeof window == "undefined") {
     return false;
   }
   if (localStorage.getItem("jwt")) {
