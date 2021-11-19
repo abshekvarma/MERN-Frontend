@@ -19,8 +19,8 @@ export default function Base({
       </div>
       <footer className="footer bg-dark mt-auto py-0">
         <div className="container-fluid bg-success text-white text-center">
-          <h4>If you have got any questions, feel free to reach out</h4>
-          <button className="btn btn-warning btn-lg">Contact Us </button>
+          If you have got any questions, feel free to reach out to us.
+          <button className="btn btn-warning btn-sm"> Contact Us </button>
         </div>
         <div className="container"></div>
         <span className="text-muted text-right">
