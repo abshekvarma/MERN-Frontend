@@ -20,6 +20,7 @@ export default function AddProduct() {
     createdProduct: "",
     getaRedirect: false,
     formData: "",
+    success: false,
   });
 
   const {
@@ -34,25 +35,28 @@ export default function AddProduct() {
     createdProduct,
     getaRedirect,
     formData,
+    success,
   } = values;
 
   const preload = () => {
-    getAllCategories().then(data => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        setValues({ ...values, categories: data, formData: new FormData() });
-        console.log(categories);
-      }
-    });
+    getAllCategories()
+      .then(data => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+        } else {
+          setValues({ ...values, categories: data, formData: new FormData() });
+          console.log(categories);
+        }
+      })
+      .catch(err => console.log(err));
   };
 
   useEffect(() => {
     preload();
-  });
+  }, []);
 
   const onSubmit = event => {
-    event.preventDefauly();
+    event.preventDefault();
     setValues({ ...values, error: "", loading: true });
     createProduct(user._id, token, formData)
       .then(data => {
@@ -68,35 +72,45 @@ export default function AddProduct() {
             stock: "",
             loading: false,
             createdProduct: data.name,
+            error: "",
+            success: true,
           });
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        setValues({ ...values, error: err });
+      });
   };
-  const handleChange = (name, event) => {
-    const value = name === "photo" ? event.target.file[0] : event.target.value;
+  const handleChange = name => event => {
+    const value = name === "photo" ? event.target.files[0] : event.target.value;
     formData.set(name, value);
     setValues({ ...values, [name]: value });
   };
 
   function successMessage() {
-    return (
-      <div
-        className="alert alert-success mt-3"
-        style={{ display: createProduct ? "" : "none" }}
-      >
-        <h4>{createProduct} created Successfully</h4>
-      </div>
-    );
+    if (success) {
+      return (
+        <div
+          className="alert alert-success mt-3"
+          style={{ display: createProduct ? "" : "none" }}
+        >
+          <h4>{createProduct} created Successfully</h4>
+        </div>
+      );
+    }
   }
 
   function errorMessage() {
-    <div
-      className="alert alert-danger mt-3"
-      style={{ display: !createProduct ? "" : "none" }}
-    >
-      <h4>{createProduct} Failed to create a Product</h4>
-    </div>;
+    if (error) {
+      return (
+        <div
+          className="alert alert-danger mt-3"
+          style={{ display: createProduct ? "" : "none" }}
+        >
+          <h4>{createProduct} Failed to create a Product</h4>
+        </div>
+      );
+    }
   }
 
   const createProductForm = () => (
@@ -157,7 +171,7 @@ export default function AddProduct() {
       </div>
       <div className="form-group">
         <input
-          onChange={handleChange("quantity")}
+          onChange={handleChange("stock")}
           type="number"
           className="form-control"
           placeholder="Quantity"
