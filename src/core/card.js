@@ -7,7 +7,7 @@ export default function Card({
   product,
   addToCartFlag = true,
   removeFromCart = false,
-  setReload = f => f,
+  setReload = (f) => f,
   reload = undefined,
 }) {
   const [redirect, setredirect] = useState(false);
@@ -21,13 +21,13 @@ export default function Card({
     addItemToCart(product, () => setredirect(true));
   };
 
-  const getARedirect = redirect => {
+  const getARedirect = (redirect) => {
     if (redirect) {
       return <Redirect to="/cart" />;
     }
   };
 
-  const showAddToCart = addToCartFlag => {
+  const showAddToCart = (addToCartFlag) => {
     return (
       addToCartFlag && (
         <button
@@ -39,7 +39,7 @@ export default function Card({
       )
     );
   };
-  const showRemoveFromCart = removeFromCart => {
+  const showRemoveFromCart = (removeFromCart) => {
     return (
       removeFromCart && (
         <button

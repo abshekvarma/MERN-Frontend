@@ -5,20 +5,21 @@ import Base from "./Base";
 import Card from "./card";
 import { useEffect } from "react/cjs/react.development";
 import { loadCart } from "../admin/helper/cartHelper";
+import Payment from "./Payment";
 
 export default function Cart() {
-  const [product, setproduct] = useState([]);
+  const [products, setproduct] = useState([]);
   const [reload, setreload] = useState(false);
 
   useEffect(() => {
     setproduct(loadCart());
   }, [reload]);
 
-  const loadAllProducts = () => {
+  const loadAllProducts = (products) => {
     return (
       <div>
         <h2>This section is to load products</h2>
-        {product.map((product, index) => {
+        {products.map((product, index) => {
           return (
             <Card
               key={index}
@@ -45,8 +46,16 @@ export default function Cart() {
   return (
     <Base title="Cart Page" description="Checkout Items">
       <div className="row">
-        <div className="col-6">{loadAllProducts()}</div>
-        <div className="col-6">{loadCheckout()}</div>
+        <div className="col-6">
+          {products.length > 0 ? (
+            loadAllProducts(products)
+          ) : (
+            <h3>No products in cart</h3>
+          )}
+        </div>
+        <div className="col-6">
+          <Payment products={products} setReload={setreload} />
+        </div>
       </div>
     </Base>
   );
